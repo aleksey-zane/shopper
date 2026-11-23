@@ -1,0 +1,221 @@
+{
+  "_aliases": {"ketogenic": "keto", "keto-diet": "keto", "lowcarb": "low-carb", "low-carbohydrate": "low-carb", "plant-based": "vegan", "pescetarian": "pescatarian", "highprotein": "high-protein"},
+  "balanced": {
+    "protein_pct": 20,
+    "fat_pct": 30,
+    "carbs_pct": 50,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "Vegetables or salad at lunch and dinner every day",
+      "Fruit every day",
+      "Fish at least 2 times a week",
+      "Red meat at most 2 times a week",
+      "Beans, lentils or chickpeas at least 2 times a week",
+      "Whole-grain versions for at least half of the bread, pasta and cereals",
+      "Sausages, bacon and other processed meat at most once a week",
+      "Sweets and sweet drinks at most 2 times a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "daily_min", "group": "fruit", "min": 1},
+      {"type": "weekly_min", "group": "fish", "min": 2},
+      {"type": "weekly_max", "group": "red_meat", "max": 2},
+      {"type": "weekly_min", "group": "legumes", "min": 2},
+      {"type": "share_min", "group": "whole_grain", "of": "grains", "min": 0.5},
+      {"type": "weekly_max", "group": "processed_meat", "max": 1},
+      {"type": "weekly_max", "group": "sweets", "max": 2}
+    ]
+  },
+  "high-protein": {
+    "protein_g_per_kg": 2.0,
+    "protein_max_pct": 30,
+    "fat_pct": 25,
+    "adults_only_shares": true,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "A protein food (meat, fish, eggs, dairy, beans or lentils) at every meal",
+      "Vegetables or salad at lunch and dinner every day",
+      "Fish at least 2 times a week",
+      "Red meat at most 3 times a week",
+      "Beans, lentils or chickpeas at least 2 times a week",
+      "Sausages, bacon and other processed meat at most once a week",
+      "Sweets and sweet drinks at most once a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "every_meal", "group": "protein_food", "meals": ["breakfast", "lunch", "dinner"]},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "weekly_min", "group": "fish", "min": 2},
+      {"type": "weekly_max", "group": "red_meat", "max": 3},
+      {"type": "weekly_min", "group": "legumes", "min": 2},
+      {"type": "weekly_max", "group": "processed_meat", "max": 1},
+      {"type": "weekly_max", "group": "sweets", "max": 1}
+    ]
+  },
+  "Mediterranean": {
+    "protein_pct": 18,
+    "fat_pct": 35,
+    "carbs_pct": 47,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "Vegetables at lunch and dinner every day",
+      "Fruit every day",
+      "Olive oil as the main cooking fat",
+      "Fish or seafood at least 2 times a week",
+      "Beans, lentils or chickpeas at least 3 times a week",
+      "Nuts or seeds every day",
+      "Whole-grain bread, pasta or cereals every day",
+      "Red meat at most once a week",
+      "Sweets and sweet drinks at most 2 times a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "daily_min", "group": "fruit", "min": 1},
+      {"type": "weekly_min", "group": "fish", "min": 2},
+      {"type": "weekly_min", "group": "legumes", "min": 3},
+      {"type": "daily_min", "group": "nuts_seeds", "min": 1},
+      {"type": "daily_min", "group": "whole_grain", "min": 1},
+      {"type": "weekly_max", "group": "red_meat", "max": 1},
+      {"type": "weekly_max", "group": "sweets", "max": 2}
+    ],
+    "judge": [
+      "Olive oil as the main cooking fat"
+    ]
+  },
+  "vegetarian": {
+    "protein_pct": 17,
+    "fat_pct": 30,
+    "carbs_pct": 53,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "No meat, poultry, fish or seafood",
+      "Eggs and dairy are allowed",
+      "Beans, lentils, tofu or another plant protein every day",
+      "Vegetables or salad at lunch and dinner every day",
+      "Fruit every day",
+      "Nuts or seeds every day",
+      "Whole-grain bread, pasta or cereals every day",
+      "Sweets and sweet drinks at most 2 times a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "never", "groups": ["red_meat", "poultry", "processed_meat", "fish"]},
+      {"type": "daily_min", "group": "plant_protein", "min": 1},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "daily_min", "group": "fruit", "min": 1},
+      {"type": "daily_min", "group": "nuts_seeds", "min": 1},
+      {"type": "daily_min", "group": "whole_grain", "min": 1},
+      {"type": "weekly_max", "group": "sweets", "max": 2}
+    ]
+  },
+  "vegan": {
+    "protein_pct": 17,
+    "fat_pct": 30,
+    "carbs_pct": 53,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "No meat, poultry, fish, seafood, eggs, dairy or honey",
+      "Beans, lentils, tofu or another plant protein at lunch and dinner",
+      "Vegetables or salad at lunch and dinner every day",
+      "Fruit every day",
+      "Nuts or seeds every day",
+      "Whole-grain bread, pasta or cereals every day",
+      "A food with added vitamin B12, such as fortified plant milk, every day",
+      "Sweets and sweet drinks at most 2 times a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "never", "groups": ["red_meat", "poultry", "processed_meat", "fish", "eggs", "dairy", "honey"]},
+      {"type": "every_meal", "group": "plant_protein", "meals": ["lunch", "dinner"]},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "daily_min", "group": "fruit", "min": 1},
+      {"type": "daily_min", "group": "nuts_seeds", "min": 1},
+      {"type": "daily_min", "group": "whole_grain", "min": 1},
+      {"type": "daily_min", "group": "b12_fortified", "min": 1},
+      {"type": "weekly_max", "group": "sweets", "max": 2}
+    ]
+  },
+  "pescatarian": {
+    "protein_pct": 20,
+    "fat_pct": 30,
+    "carbs_pct": 50,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "No meat or poultry",
+      "Fish or seafood at least 3 times a week",
+      "Eggs and dairy are allowed",
+      "Beans, lentils or chickpeas at least 2 times a week",
+      "Vegetables or salad at lunch and dinner every day",
+      "Fruit every day",
+      "Whole-grain versions for at least half of the bread, pasta and cereals",
+      "Sweets and sweet drinks at most 2 times a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "never", "groups": ["red_meat", "poultry", "processed_meat"]},
+      {"type": "weekly_min", "group": "fish", "min": 3},
+      {"type": "weekly_min", "group": "legumes", "min": 2},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "daily_min", "group": "fruit", "min": 1},
+      {"type": "share_min", "group": "whole_grain", "of": "grains", "min": 0.5},
+      {"type": "weekly_max", "group": "sweets", "max": 2}
+    ]
+  },
+  "low-carb": {
+    "protein_pct": 25,
+    "fat_pct": 45,
+    "carbs_pct": 30,
+    "adults_only_shares": true,
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "Bread, pasta, rice, potatoes or other starchy food at most once a day, as a small portion",
+      "Vegetables or salad at lunch and dinner every day",
+      "A protein food (meat, fish, eggs, dairy, beans or lentils) at every meal",
+      "Fish at least 2 times a week",
+      "Nuts, seeds, olive oil or avocado every day",
+      "Fruit at most once a day",
+      "No sweet drinks",
+      "Sweets at most once a week"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "daily_max", "group": "starchy", "max": 1},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "every_meal", "group": "protein_food", "meals": ["breakfast", "lunch", "dinner"]},
+      {"type": "weekly_min", "group": "fish", "min": 2},
+      {"type": "daily_min", "group": "healthy_fat", "min": 1},
+      {"type": "daily_max", "group": "fruit", "max": 1},
+      {"type": "never", "groups": ["sweet_drink"]},
+      {"type": "weekly_max", "group": "sweets", "max": 1}
+    ]
+  },
+  "keto": {
+    "protein_pct": 20,
+    "fat_pct": 70,
+    "carbs_pct": 10,
+    "adults_only_shares": true,
+    "note": "a strict way of eating - check with a doctor first if you have a health condition",
+    "rules": [
+      "At least 400 g of vegetables and fruit a day (potatoes do not count)",
+      "No bread, pasta, rice, potatoes, cereals or sugar",
+      "Leafy greens, cabbage, courgettes, peppers or other non-starchy vegetables at lunch and dinner every day",
+      "A protein food (meat, fish, eggs or cheese) at every meal",
+      "Fatty fish at least 2 times a week",
+      "Olive oil, butter, avocado, nuts or seeds every day",
+      "Fruit only as a small portion of berries, at most 3 times a week",
+      "No sweet drinks and no fruit juice"
+    ],
+    "checks": [
+      {"type": "daily_grams_min", "group": "fruit_veg", "min": 400, "min_age": 10},
+      {"type": "never", "groups": ["grains", "starchy", "sugar", "sweet_drink", "juice"]},
+      {"type": "every_meal", "group": "vegetables", "meals": ["lunch", "dinner"]},
+      {"type": "every_meal", "group": "protein_food", "meals": ["breakfast", "lunch", "dinner"]},
+      {"type": "weekly_min", "group": "fatty_fish", "min": 2},
+      {"type": "daily_min", "group": "healthy_fat", "min": 1},
+      {"type": "never", "groups": ["fruit"], "except_groups": ["berries"]},
+      {"type": "weekly_max", "group": "berries", "max": 3}
+    ]
+  }
+}

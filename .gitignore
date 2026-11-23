@@ -1,0 +1,11 @@
+# Only the plugin and its catalog are published. Everything else in this folder
+# (data/, tests/, notes) stays on this computer.
+/*
+!/.gitignore
+!/.claude-plugin/
+!/plugins/
+__pycache__/
+*.pyc
+.DS_Store
+# test fixtures are modelled on a real profile
+test_*.py

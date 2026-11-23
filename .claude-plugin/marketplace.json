@@ -1,0 +1,14 @@
+{
+  "name": "aleksey-zane",
+  "description": "Plugins by aleksey-zane.",
+  "owner": {
+    "name": "aleksey-zane"
+  },
+  "plugins": [
+    {
+      "name": "shopper",
+      "source": "./plugins/shopper",
+      "description": "Diet planning, weekly menus, shopping lists and Silpo cart filling."
+    }
+  ]
+}
