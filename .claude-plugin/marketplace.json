@@ -8,7 +8,7 @@
     {
       "name": "shopper",
       "source": "./plugins/shopper",
-      "description": "Diet planning, weekly menus, shopping lists and Silpo cart filling."
+      "description": "Plans a diet, composes weekly menus with recipes within a budget, and fills a Silpo cart (Ukraine)."
     }
   ]
 }

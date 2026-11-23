@@ -2,6 +2,7 @@
 # (data/, tests/, notes) stays on this computer.
 /*
 !/.gitignore
+!/README.md
 !/.claude-plugin/
 !/plugins/
 __pycache__/

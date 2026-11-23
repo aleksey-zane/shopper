@@ -1,5 +1,19 @@
 {
   "name": "shopper",
-  "description": "Diet planning, weekly menus, shopping lists and Silpo cart filling.",
-  "version": "0.1.0"
+  "description": "Plans a diet, composes weekly menus with recipes within a budget, and fills a Silpo cart (Ukraine). You check and pay for the order yourself.",
+  "version": "0.1.1",
+  "author": {
+    "name": "aleksey-zane",
+    "url": "https://github.com/aleksey-zane"
+  },
+  "homepage": "https://github.com/aleksey-zane/shopper",
+  "repository": "https://github.com/aleksey-zane/shopper",
+  "keywords": [
+    "diet",
+    "menu",
+    "recipes",
+    "groceries",
+    "silpo",
+    "ukraine"
+  ]
 }
