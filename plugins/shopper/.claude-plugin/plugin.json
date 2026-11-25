@@ -1,7 +1,7 @@
 {
   "name": "shopper",
   "description": "Plans a diet, composes weekly menus with recipes within a budget, and fills a Silpo cart (Ukraine). You check and pay for the order yourself.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "aleksey-zane",
     "url": "https://github.com/aleksey-zane"

@@ -51,6 +51,11 @@ PERIOD_DAYS = {"week": 7, "2 weeks": 14, "month": 30}
 FREE_FOODS = {"water", "spices"}
 DEFAULT_STEP_GRAMS = 100
 PRICE_MAX_AGE_DAYS = 7
+# The largest amount of a food, or of a soup, on one plate: twice the reference amount per eating occasion (portions.json).
+PORTIONS = json.loads((SKILL_DIR / "portions.json").read_text("utf-8"))
+PLATE_MAX = {food: grams * PORTIONS["max_share"] for food, grams in PORTIONS["foods"].items()}
+SOUP_MAX = PORTIONS["soup_g"] * PORTIONS["max_share"]
+SOUP_WORDS = re.compile(r"\b(борщ|суп|щи\b|уха\b|юшка|рассольник|розсольник|солянка|капустняк|бульон|бульйон|soup|broth|borscht)", re.I)
 COOKED_KEEPS_DAYS = 2  # a cooked food at home has to be eaten in the first days of the menu
 # Foods that count towards WHO's "at least 400 g of fruits and vegetables a day";
 # potatoes and other starchy roots are in "starchy" and do not count.
@@ -561,6 +566,24 @@ def cost_report(ctx, days, dishes, portions):
 
 # ---------- the check ----------
 
+def plate_limit(entries, dishes, foods):
+    """The largest multiplier that keeps every food and every soup of a meal within one plate, and what sets it."""
+    grams, limits = {}, []
+    for entry in entries:
+        dish = dishes[entry["dish"]]
+        for item in dish["ingredients"]:
+            grams[item["food"]] = grams.get(item["food"], 0) + item["grams"]
+        if dish.get("soup"):
+            weight = sum(item["grams"] for item in dish["ingredients"] if not item["food"].startswith("bread_"))
+            limits.append((SOUP_MAX / weight, f"{dish['name']} is a soup of {weight:.0f} g a portion, "
+                                              f"and a plate holds at most {SOUP_MAX:g} g"))
+    for food, amount in grams.items():
+        if amount > 0 and food in PLATE_MAX:
+            limits.append((PLATE_MAX[food] / amount, f"{plain(food)} is {amount:.0f} g a portion, "
+                                                     f"and a plate holds at most {PLATE_MAX[food]:g} g"))
+    return min(limits, key=lambda x: x[0], default=(math.inf, ""))
+
+
 def entries_for(day, meal, eater, menu):
     result = []
     for entry in (day.get("meals") or {}).get(meal) or []:
@@ -615,6 +638,11 @@ def check(ctx, today):
                 fix.append(f"{dish.get('name', dish_id)}: \"{item.get('food')}\" needs an amount in grams.")
         if dish.get("total_minutes") is not None and dish["total_minutes"] < dish.get("cook_minutes", 0):
             fix.append(f"{dish.get('name', dish_id)}: total_minutes cannot be less than cook_minutes.")
+        water = sum(i.get("grams", 0) for i in dish.get("ingredients", []) if i.get("food") == "water")
+        if SOUP_WORDS.search(dish.get("name", "")) and not dish.get("soup"):
+            fix.append(f"{dish['name']} looks like a soup: set \"soup\" to true in it.")
+        elif dish.get("soup") and water <= 0:
+            fix.append(f"{dish.get('name', dish_id)} is a soup: list its water under ingredients, in grams for one portion.")
         missing = set(x.lower() for x in dish.get("equipment", [])) - ctx["equipment"]
         if missing:
             fix.append(f"{dish.get('name', dish_id)} needs {', '.join(sorted(missing))}, which is not in the kitchen.")
@@ -660,9 +688,18 @@ def check(ctx, today):
                     fix.append(f"{short_day(date)} {meal}: the dishes have no calories.")
                     continue
                 wanted = goal / base
+                limit, why_limit = plate_limit(entries, dishes, foods)
                 multiplier = min(MAX_PORTION, max(MIN_PORTION, wanted))
                 multiplier = half_up(multiplier, 0.05)
-                if wanted > MAX_PORTION:
+                if multiplier > limit + 1e-9:
+                    multiplier = max(MIN_PORTION, math.floor(limit / 0.05 + 1e-9) * 0.05)
+                if limit < MIN_PORTION:
+                    fix.append(f"{short_day(date)} {meal}: {why_limit}, so even the smallest portion is too big. "
+                               "Write the recipe for a smaller portion and add another dish to the meal.")
+                elif min(wanted, MAX_PORTION) > limit + 0.025:
+                    tight.append(f"{meal} gives {base * multiplier:.0f} of {goal:.0f} kcal because {why_limit}: "
+                                 "add another dish to the meal")
+                elif wanted > MAX_PORTION:
                     tight.append(f"{meal} is too light ({base * MAX_PORTION:.0f} kcal at the largest portion, {goal:.0f} needed)")
                 elif wanted < MIN_PORTION:
                     tight.append(f"{meal} is too heavy ({base * MIN_PORTION:.0f} kcal at the smallest portion, {goal:.0f} needed)")

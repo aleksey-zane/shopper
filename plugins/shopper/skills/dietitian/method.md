@@ -75,6 +75,17 @@ The rules of each way of eating are in `patterns.json`; the menu script checks t
 - Fish at least 2 times a week: EFSA gives 1 to 2 fatty fish meals a week for adults [EFSA 2017, 3.3].
 - How often to eat beans and lentils, the whole-grain share, how often sweets, fruit every day, nuts every day: **[no source]** for the numbers. WHO advises carbohydrates mainly from whole grains, vegetables, fruit and pulses, and free sugars below 10% of energy, without a count per week.
 
+## Portion sizes
+
+The menu script sizes each person's portions to the calories of the meal, but never above one plate:
+
+- **A food:** at most twice the reference amount customarily consumed at one eating occasion, added over the dishes of the meal. The amounts are in `portions.json` of the `menu` skill [21 CFR 101.12; meat and poultry 9 CFR 317.312, 381.412].
+- **A soup:** at most 2 × 245 g = 490 g, its water included [21 CFR 101.12].
+- **Why twice:** less than 200 percent of the reference amount counts as one serving [21 CFR 101.9(b)(6)].
+- Foods without a reference amount in the table have no limit of their own: fats, sweeteners, seasonings, whole fish and bone-in pieces.
+
+When a meal within these limits has too few calories, the chef adds another dish to it. The user is never asked about portions.
+
 ## Knowing when the diet is out of date
 
 `data/diet.md` holds a fingerprint of the profile fields the targets depend on, together with the calendar year. `targets.py --check` compares it with the profile: any change in those fields, or a new year, makes the diet stale. Changes elsewhere in the profile, such as cooking time or budget, do not.
@@ -92,4 +103,6 @@ Breakfast 25%, lunch 35%, dinner 30%, snacks 10% **[no source]**. When the plan 
 - **IOM 2005.** Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids. National Academies Press, 2005. doi:10.17226/10490. Acceptable Macronutrient Distribution Ranges.
 - **ISSN 2017.** Jäger R et al. International Society of Sports Nutrition Position Stand: protein and exercise. J Int Soc Sports Nutr 2017;14:20. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5477153/
 - **WHO healthy diet.** World Health Organization, Healthy diet fact sheet. https://www.who.int/news-room/fact-sheets/detail/healthy-diet
+- **21 CFR 101.12, 101.9.** US Food and Drug Administration, Reference amounts customarily consumed per eating occasion; Nutrition labeling of food. https://www.govinfo.gov/content/pkg/CFR-2023-title21-vol2/xml/CFR-2023-title21-vol2-sec101-12.xml and sec101-9.
+- **9 CFR 317.312, 381.412.** US Department of Agriculture, reference amounts for meat and for poultry products. https://www.govinfo.gov/content/pkg/CFR-2023-title9-vol2/xml/CFR-2023-title9-vol2-sec381-412.xml and sec317-312.
 - **WCRF.** World Cancer Research Fund / American Institute for Cancer Research, Cancer Prevention Recommendations: Limit red and processed meat. https://www.wcrf.org/diet-activity-and-cancer/cancer-prevention-recommendations/limit-red-and-processed-meat/

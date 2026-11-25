@@ -1,6 +1,6 @@
 # The shape of data/menu/draft.json
 
-One JSON object. The example is a two-day menu for one eater, shortened to two dishes.
+One JSON object. The example is a two-day menu for one eater, shortened to three dishes.
 
 ```json
 {
@@ -25,16 +25,26 @@ One JSON object. The example is a two-day menu for one eater, shortened to two d
     },
     "borscht": {
       "name": "Борщ з квасолею",
+      "soup": true,
       "cook_minutes": 25,
       "total_minutes": 60,
       "equipment": ["stove"],
       "ingredients": [
-        { "food": "beetroot", "grams": 120 },
-        { "food": "cabbage", "grams": 100 },
-        { "food": "beans_canned", "grams": 100 },
-        { "food": "bread_rye", "grams": 60 }
+        { "food": "water", "grams": 200 },
+        { "food": "beetroot", "grams": 70 },
+        { "food": "cabbage", "grams": 60 },
+        { "food": "beans_canned", "grams": 100 }
       ],
-      "steps": ["Зварити овочі до м'якості.", "Додати квасолю, прогріти.", "Подати з хлібом."]
+      "steps": ["Зварити овочі у воді до м'якості.", "Додати квасолю, прогріти."]
+    },
+    "cheese_toast": {
+      "name": "Житній хліб із сиром",
+      "cook_minutes": 2,
+      "ingredients": [
+        { "food": "bread_rye", "grams": 80 },
+        { "food": "hard_cheese", "grams": 40 }
+      ],
+      "steps": ["Покласти сир на хліб."]
     }
   },
   "days": [
@@ -42,14 +52,14 @@ One JSON object. The example is a two-day menu for one eater, shortened to two d
       "date": "2026-11-15",
       "meals": {
         "breakfast": [{ "dish": "oatmeal" }],
-        "lunch": [{ "dish": "borscht" }]
+        "lunch": [{ "dish": "borscht" }, { "dish": "cheese_toast" }]
       }
     },
     {
       "date": "2026-11-16",
       "meals": {
         "breakfast": [{ "dish": "oatmeal" }],
-        "lunch": [{ "dish": "borscht", "cook": false }]
+        "lunch": [{ "dish": "borscht", "cook": false }, { "dish": "cheese_toast" }]
       }
     }
   ]
@@ -68,6 +78,7 @@ One JSON object. The example is a two-day menu for one eater, shortened to two d
 | `name` | The dish name in the menu language. |
 | `cook_minutes` | Hands-on minutes for one cooking of the dish: preparing, and cooking that needs someone at the stove. 0 for a dish that needs no cooking. |
 | `total_minutes` | Minutes from start until the dish is ready, when that is longer than `cook_minutes` because it bakes or simmers unattended. Leave it out otherwise. |
+| `soup` | `true` for a soup. Its `ingredients` then list `water`, in grams for one portion. Leave it out for other dishes. |
 | `equipment` | What the dish needs from: stove, oven, microwave, multicooker, air fryer, blender, grill. Leave it out when it needs none. |
 | `ingredients` | `food` is a key from `foods.json` or `extra_foods`; `grams` is for one portion, raw product. A food's display name can be set with an optional `name`. |
 | `steps` | The recipe, as short steps. |

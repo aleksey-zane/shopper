@@ -29,6 +29,7 @@ All in the shopper project folder, except the food table.
 | `data/pantry.json` | Food already at home: the food, its grams as bought, and whether it is raw or cooked. |
 | `data/prices.json` | For each priced food: the price, and the pack it is sold in. A food that is not listed has no price yet; one marked `missing` cannot be bought. |
 | `foods.json` in the `menu` skill's folder (next to this skill's folder) | The foods a recipe may use, by key. |
+| `portions.json` in the same folder | Per food, the amount people eat at one time, in grams. |
 
 The exact shape of the draft is in `draft-format.md` in this skill's folder.
 
@@ -70,6 +71,8 @@ When the user asks to move the menu to another start date: set `range.start` to 
 - **Special wishes.** What the user asked for this time comes before the other rules here, except foods never allowed. A meal the user will eat elsewhere gets no dish: leave its list empty and name the meal in that day's `out`.
 - **Meals.** Each eater gets every meal that is in their plan, on every day, except meals in `out`. Eaters share dishes. When a food never allowed for one eater is in a shared dish, give that eater another dish for that meal, with `"eaters": [n]` on both entries.
 - **One portion.** Write every recipe for one portion of an ordinary adult meal: breakfast about 450 to 600 kcal, lunch 600 to 800, dinner 550 to 750, snacks 150 to 250. The dietitian's script scales each eater's portion between 0.6 and 1.8 of it, so a dish far outside these sizes cannot be made to fit.
+- **One plate.** A meal of one person holds at most twice the amount in `portions.json` of any food, added over the meal's dishes, and at most 490 g of soup, its water included. The script never sizes a portion above that. When a meal then has too few calories, add another dish to it (a second course, bread with something on it, cottage cheese, fruit); never make the plate bigger. A soup alone is far too light for a lunch or a dinner: plan its second dish from the start.
+- **Soups.** A soup has `"soup": true` and lists `water` under its ingredients, in grams for one portion. Bread eaten with it is a dish of its own in that meal. How many bowls a pot gives follows from this: a pot that fills more bowls than the leftovers rule lets come back is too big.
 - **The way of eating.** Follow each eater's weekly rules and extra rules from `data/diet.md`. For a menu shorter or longer than a week, keep the same proportion: "fish at least 2 times a week" means about once in three days. A food never allowed must not appear at all, under any name or in any form. Leave out disliked foods.
 - **Cooking time.** `cook_minutes` is the honest hands-on time of a dish: preparing, and cooking that needs someone at the stove. Time when the food cooks without anyone watching it, such as baking, simmering under a lid or a multicooker programme, does not count, and goes into `total_minutes`. The hands-on minutes of everything cooked on one day must fit that day's limit; working days and weekend days have separate limits. Never lower a dish's minutes to make a day fit: choose a quicker dish.
 - **Leftovers.** Follow `leftovers` in the profile. When a dish may come back, cook it once and serve it again with `"cook": false`, to save cooking.
